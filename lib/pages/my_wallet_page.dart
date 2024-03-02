@@ -1,4 +1,7 @@
-import 'package:e_wallet/pages/widgets_files/move_calendar_oneday.dart';
+import 'package:e_wallet/pages/expenses_list_model/expenses_model.dart';
+import 'package:e_wallet/pages/widgets_files/budget_page.dart';
+import 'package:e_wallet/pages/widgets_files/expenses_list_page.dart';
+import 'package:e_wallet/pages/widgets_files/per_next_day.dart';
 import 'package:e_wallet/pages/widgets_files/open_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
@@ -11,7 +14,7 @@ class MyWallet extends StatefulWidget {
 
 class _MyWalletState extends State<MyWallet> {
   DateTime _dateTime = DateTime.now();
-
+  ExpensesList expensesList = ExpensesList();
   void openCalendar(BuildContext context) {
     showMonthPicker(
       context: context,
@@ -49,14 +52,25 @@ class _MyWalletState extends State<MyWallet> {
           title: const Text("My Wallet"),
           centerTitle: true,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              OpenCalendar(openCalendar, _dateTime),
-              MoveCalendar(moveForward, moveBack, _dateTime),
-            ],
-          ),
+        body: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            OpenCalendar(openCalendar, _dateTime),
+            MoveCalendar(moveForward, moveBack, _dateTime),
+            SizedBox(
+              height: 40,
+            ),
+            Expanded(
+              child: Stack(
+                children: [
+                  Budget(),
+                  ExpensesListPage(expensesList.items),
+                ],
+              ),
+            ),
+          ],
         ));
   }
 }
